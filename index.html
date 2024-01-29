@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -28,32 +30,61 @@
       <a class="center-button" id="pause"><i class="fa-solid fa-pause"></i></a>
     </nav>
 
-    <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+    <div>
+        <input type="text">
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
+        
+        token = new URL(location.href).searchParams.get("token")
 
       document.querySelector("#next").addEventListener("click", () => {
-        socket.emit("nextKey");
+        socket.emit("nextKey", token);
       });
 
       document.querySelector("#back").addEventListener("click", () => {
-        socket.emit("backKey");
+        socket.emit("backKey", token);
       });
 
       document.querySelector("#sound-plus").addEventListener("click", () => {
-        socket.emit("soundPlus");
+        socket.emit("soundPlus", token);
       });
 
       document.querySelector("#sound-minus").addEventListener("click", () => {
-        socket.emit("soundMinus");
+        socket.emit("soundMinus", token);
       });
 
       document.querySelector("#pause").addEventListener("click", () => {
-        socket.emit("pause");
+        socket.emit("pause", token);
       });
+
+        document.querySelector("input").onchange = function(){
+            socket.emit("write", {value: this.value, token: token})
+            this.value = ""
+        }
+
     </script>
 
     <style>
+
+        input{
+            padding: 10px;
+    width: 50%;
+    border-radius: 8px;
+    border: 0;
+    background: white;
+        }
+
+        input:focus{
+            outline: none;
+        }
+
+        div:has(input){
+            display: flex;
+    justify-content: center;
+        }
       body {
         background: #333;
       }

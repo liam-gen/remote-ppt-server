@@ -4,6 +4,7 @@ const { join } = require("node:path");
 const { Server } = require("socket.io");
 
 const app = express();
+app.use(cors())
 const server = createServer(app);
 const io = new Server(server);
 
@@ -12,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 server.listen(8000, () => {
-  console.log("server running at http://localhost:8000");
+  console.log("server running at http://localhost:8000 with CORS");
 });
 
 io.on("connection", (socket) => {

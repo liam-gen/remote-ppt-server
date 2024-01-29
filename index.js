@@ -17,22 +17,22 @@ server.listen(3000, () => {
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-  socket.on("nextKey", () => {
-    console.log("nextKey");
-    io.emit("nextKey");
+  socket.on("nextKey", (data) => {
+    io.emit("nextKey", data);
   });
-  socket.on("backKey", () => {
-    console.log("backKey");
-    io.emit("backKey");
+  socket.on("backKey", (data) => {
+    io.emit("backKey", data);
   });
-  socket.on("soundPlus", () => {
-    io.emit("soundPlus");
+  socket.on("soundPlus", (data) => {
+    io.emit("soundPlus", data);
   });
-  socket.on("soundMinus", () => {
-    io.emit("soundMinus");
+  socket.on("soundMinus", (data) => {
+    io.emit("soundMinus", data);
   });
-  socket.on("pause", () => {
-    io.emit("pause");
+  socket.on("pause", (data) => {
+    io.emit("pause", data);
   });
-  //socket.emit("hello");
+  socket.on("write", (data) => {
+    io.emit("write", data);
+  });
 });

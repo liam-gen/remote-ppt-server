@@ -8,6 +8,11 @@ const fileUpload = require('express-fileupload');
 
 const app = express();
 
+if(!fs.exists(__dirname+"/packages/lgjs-tools-chat/uploads/"))
+{
+  fs.mkdirSync(__dirname+"/packages/lgjs-tools-chat/uploads/", {recursive: true})
+}
+
 app.use(fileUpload());
 app.use(cors())
 

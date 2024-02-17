@@ -23,6 +23,18 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
 
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+
 app.post("/lgjs-tools-uploads", (req, res) => {
   let sampleFile;
   let uploadPath;
@@ -33,19 +45,20 @@ app.post("/lgjs-tools-uploads", (req, res) => {
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   sampleFile = req.files.fileToUpload;
-  uploadPath = __dirname + '/packages/lgjs-tools-chat/uploads/' + sampleFile.name;
+  let fileId = makeid(10)
+  uploadPath = __dirname + '/packages/lgjs-tools-chat/uploads/' + fileId;
 
   // Use the mv() method to place the file somewhere on your server
   sampleFile.mv(uploadPath, function(err) {
     if (err)
       return res.status(500).send(err);
 
-    res.send(uploadPath);
+    res.send('/packages/lgjs-tools-chat/uploads/'+fileId);
   });
 });
 
 server.listen(8000, () => {
-  console.log("server running at http://localhost:8000 with CORS");
+  console.log("server running at http://localhost:8000 with file upload");
 });
 
 

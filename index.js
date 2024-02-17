@@ -55,7 +55,7 @@ app.post("/lgjs-tools-uploads", (req, res) => {
     if (err)
       return res.status(500).send(err);
 
-    res.send('/packages/lgjs-tools-chat/uploads/'+fileId);
+    res.send('/lgjs-tools-files/'+fileId);
   });
 });
 

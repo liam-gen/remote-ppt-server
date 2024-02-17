@@ -37,4 +37,8 @@ io.on("connection", (socket) => {
   socket.on("write", (data) => {
     io.emit("write", data);
   });
+
+  socket.on("lgjs-tools-chat", (data) => {
+    io.emit("lgjs-tools-chat", data);
+  });
 });

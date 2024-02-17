@@ -13,7 +13,7 @@ if(!fs.existsSync(__dirname+"/packages/lgjs-tools-chat/uploads/"))
   fs.mkdirSync(__dirname+"/packages/lgjs-tools-chat/uploads/", {recursive: true})
 }
 
-app.use(express.static(__dirname+"/packages/lgjs-tools-chat/uploads/"))
+app.use("/lgjs-tools-files", express.static(__dirname+"/packages/lgjs-tools-chat/uploads"))
 
 app.use(fileUpload());
 app.use(cors())

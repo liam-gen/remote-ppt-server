@@ -60,7 +60,7 @@ app.post("/lgjs-tools-uploads", (req, res) => {
 });
 
 server.listen(8000, () => {
-  console.log("server running at http://localhost:8000 with file upload");
+  console.log("server running at http://localhost:8000");
 });
 
 

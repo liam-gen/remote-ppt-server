@@ -3,11 +3,14 @@ const { createServer } = require("node:http");
 const { join } = require("node:path");
 const { Server } = require("socket.io");
 const cors = require('cors');
-var formidable = require('formidable');
 const fs = require("fs")
+const fileUpload = require('express-fileupload');
 
 const app = express();
+
+app.use(fileUpload());
 app.use(cors())
+
 const server = createServer(app);
 const io = new Server(server);
 
@@ -16,16 +19,24 @@ app.get("/", (req, res) => {
 });
 
 app.post("/lgjs-tools-uploads", (req, res) => {
-  var form = new formidable.IncomingForm();
-  form.parse(req, function (err, fields, files) {
-    var oldpath = files.filetoupload.filepath;
-    var newpath = __dirname + "/packages/lgjs-tools-chat/uploads/" + files.filetoupload.originalFilename;
-    fs.rename(oldpath, newpath, function (err) {
-      if (err) throw err;
-      res.write(newpath);
-      res.end();
-    });
-});
+  let sampleFile;
+  let uploadPath;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  sampleFile = req.files.fileToUpload;
+  uploadPath = __dirname + '/packages/lgjs-tools-chat/uploads/' + sampleFile.name;
+
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv(uploadPath, function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    res.send(uploadPath);
+  });
 });
 
 server.listen(8000, () => {

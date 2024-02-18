@@ -1,0 +1,33 @@
+name: Deploy to Koyeb
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Backup uploads folder
+      run: |
+        mkdir backup_packages
+        cp -r packages/* backup_packages
+      
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Deploy to Koyeb
+      run: koyeb deploy --file koyeb.yml
+      
+    - name: Restore uploads folder
+      run: |
+        cp -r backup_packages/* packages
+        rm -rf backup_packages
